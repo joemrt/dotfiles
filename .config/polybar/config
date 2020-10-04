@@ -33,7 +33,7 @@ width = 100%
 height = 27
 ;offset-x = 1%
 ;offset-y = 1%
-radius = 6.0
+radius = 0.0
 fixed-center = false
 
 background = ${colors.background}
@@ -54,10 +54,14 @@ module-margin-right = 2
 font-0 = fixed:pixelsize=10;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=10;1
+font-3 = Font Awesome 5 Free:pixelsize=12;2
+font-4 = Font Awesome 5 Free Solid:pixelsize=12;2
+font-5 = Font Awesome 5 Free Brands:pixelsize=12;2
 
-modules-left = bspwm i3
+modules-left = powermenu bspwm i3 
 modules-center = mpd
-modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+; modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
+modules-right = xbacklight pulseaudio xkeyboard memory cpu wlan eth battery date 
 
 tray-position = right
 tray-padding = 2
@@ -77,6 +81,8 @@ tray-padding = 2
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+bottom = true
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
@@ -89,7 +95,7 @@ format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.secondary}
 
-label-layout = %layout%
+label-layout =   %layout%
 label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
@@ -184,7 +190,7 @@ label-song-ellipsis = true
 type = internal/xbacklight
 
 format = <label> <bar>
-label = BL
+label = 
 
 bar-width = 10
 bar-indicator = |
@@ -208,7 +214,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #f90000
-label = %percentage:2%%
+label =  %percentage:2%%
 
 [module/memory]
 type = internal/memory
@@ -216,7 +222,7 @@ interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #4bffdc
-label = %percentage_used%%
+label =  %percentage_used%%
 
 [module/wlan]
 type = internal/network
@@ -270,13 +276,13 @@ format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = #0a6cf5
 
-label = %date% %time%
+label =  %date% %time%
 
 [module/pulseaudio]
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
+label-volume =  %percentage%%
 label-volume-foreground = ${root.foreground}
 
 label-muted = 🔇 muted
@@ -333,11 +339,15 @@ battery = BAT0
 adapter = ADP0
 full-at = 98
 
-format-charging = <animation-charging> <label-charging>
-format-charging-underline = #ffb52a
 
-format-discharging = <animation-discharging> <label-discharging>
-format-discharging-underline = ${self.format-charging-underline}
+label-charging =  %percentage%% 
+; format-charging = <animation-charging> <label-charging>
+format-charging-underline = #00ff00
+
+label-discharging =  %percentage%% 
+; format-discharging = <animation-discharging> <label-discharging>
+; format-discharging-underline = ${self.format-charging-underline}
+format-discharging-underline = #ffb52a
 
 format-full-prefix = " "
 format-full-prefix-foreground = ${colors.foreground-alt}
@@ -386,7 +396,7 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = 
+label-open = " "
 label-open-foreground = ${colors.secondary}
 label-close =  cancel
 label-close-foreground = ${colors.secondary}
