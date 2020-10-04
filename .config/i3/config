@@ -30,7 +30,7 @@ font pango:monospace 14
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec urxvt
+bindsym $mod+Return exec st -e tmux
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -153,6 +153,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
 	status_command i3status
+	tray_output primary
 }
 
 # extra configurations J.M.
@@ -162,14 +163,16 @@ for_window [class=".*"] border pixel 4
 hide_edge_borders both
 
 
+
 gaps inner 20
 smart_borders on
 
-exec --no-startup-id bg_update &
-exec --no-startup-id nm-applet 2>/dev/null &
+# exec --no-startup-id bg_update &
+# exec --no-startup-id nm-applet 2>/dev/null &
 
-exec xcompmgr -c -f -n 
+# exec xcompmgr -c -f -n 
 
+exec --no-startup-id picom &
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
