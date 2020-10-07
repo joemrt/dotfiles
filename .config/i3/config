@@ -175,8 +175,8 @@ exec --no-startup-id picom &
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec --no-startup-id bg_update &
-exec --no-startup-id nm-applet 2>/dev/null &
-exec --no-startup-id blueman-applet 2>/dev/null &
+# exec --no-startup-id nm-applet 2>/dev/null &
+# exec --no-startup-id blueman-applet 2>/dev/null &
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -186,3 +186,6 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute s
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
+
+# network_dmenu
+bindsym $mod+Shift+N exec --no-startup-id networkmanager_dmenu
