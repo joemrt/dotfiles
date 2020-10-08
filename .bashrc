@@ -28,6 +28,24 @@ function reflclean()
 	sudo reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
 }
 
+function multiheadright()
+{
+	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 && bgdice
+}
+
+function multiheadleft()
+{
+	xrandr --output eDP1 --auto --output HDMI1 --auto --left-of eDP1 && bgdice
+}
+
+function multiheadoff()
+{
+	# put them together
+	xrandr --output eDP1 --auto --output HDMI1 --auto 
+	# delete second output
+	xrandr --output eDP1 --auto 
+}
+
 alias gitdot='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 
 set -o vi
