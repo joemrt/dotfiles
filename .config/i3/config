@@ -190,3 +190,6 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 
 # network_dmenu
 bindsym $mod+Shift+N exec --no-startup-id networkmanager_dmenu
+
+# automount usb
+exec --no-startup-id udiskie --no-notify
