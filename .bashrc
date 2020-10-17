@@ -54,7 +54,6 @@ bind '"jk":vi-movement-mode'
 alias vim=nvim
 export VISUAL=nvim
 export EDITOR=nvim
-export PATH=$PATH:/home/martin/bin
 export LESS='--mouse --wheel-lines=3'
 
 archey3

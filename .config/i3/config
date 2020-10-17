@@ -193,3 +193,6 @@ bindsym $mod+Shift+N exec --no-startup-id networkmanager_dmenu
 
 # automount usb
 exec --no-startup-id udiskie --no-notify
+
+# turn of DPMS
+exec --no-startup-id xset s off -dpms
