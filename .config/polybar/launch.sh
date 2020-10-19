@@ -5,17 +5,17 @@ killall -q polybar
 # If all your bars have ipc enabled, you can also use 
 # polybar-msg cmd quit
 
-# Launch bar1 and bar2
+# Launch custombar
 echo "---" | tee -a /tmp/polybar_cusombar.log 
 polybar custombar >>/tmp/polybar_custombar.log 2>&1 & disown
 
  
+# test whether multihead is connected
 HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
 if [ $HDMI1_status == 'connected' ]; then
 		echo "---multiheadbar---" | tee -a /tmp/polybar_cusombar.log 
 		polybar multiheadbar 
 fi
-
 
 
 echo "Bars launched..."
