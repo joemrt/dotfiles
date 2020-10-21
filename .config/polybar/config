@@ -1,8 +1,6 @@
 ;==========================================================
 ;
-;
-;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
-;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+; ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗ ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
 ;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
 ;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
 ;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
@@ -58,7 +56,7 @@ font-3 = Font Awesome 5 Free:pixelsize=13;2
 font-4 = Font Awesome 5 Free Solid:pixelsize=13;2
 font-5 = Font Awesome 5 Brands:pixelsize=13;2
 
-modules-left = powermenu firefox spotify thunderbird bspwm i3 
+modules-left = homebutton firefox spotify thunderbird bspwm i3 
 modules-center = mpd
 ; modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
 modules-right = xbacklight pulseaudio xkeyboard memory cpu wlan eth battery date 
@@ -393,17 +391,17 @@ ramp-1 = 
 ramp-2 = 
 ramp-foreground = ${colors.foreground-alt}
 
-[module/powermenu]
+[module/homebutton]
 type = custom/menu
 
 expand-right = true
 
 format-spacing = 1
 
-label-open = " "
-label-open-foreground = ${colors.secondary}
+label-open = " "
+label-open-foreground = #0000aa
 label-close =  cancel
-label-close-foreground = ${colors.secondary}
+label-close-foreground = #00aa00
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
 
@@ -411,6 +409,15 @@ menu-0-0 = reboot
 menu-0-0-exec = menu-open-1
 menu-0-1 = power off
 menu-0-1-exec = menu-open-2
+menu-0-2 = hibernate 
+menu-0-2-exec = menu-open-3
+menu-0-3 = 
+menu-0-3-exec = pavucontrol &>/dev/null &
+menu-0-4 = 
+menu-0-4-exec = blueman-manager &>/dev/null &
+menu-0-5 = 
+menu-0-5-exec = nm-connection-editor &>/dev/null &
+
 
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
@@ -421,6 +428,11 @@ menu-2-0 = power off
 menu-2-0-exec = systemctl poweroff
 menu-2-1 = cancel
 menu-2-1-exec = menu-open-0
+
+menu-3-0 = hibernate
+menu-3-0-exec = systemctl hibernate
+menu-3-1 = cancel
+menu-3-1-exec = menu-open-0
 
 [settings]
 screenchange-reload = true
@@ -448,5 +460,8 @@ click-left = spotify &>/dev/null &
 type = custom/text
 content = 
 click-left = thunderbird &>/dev/null &
+
+[module/settingsmenu]
+
 
 ; vim:ft=dosini
