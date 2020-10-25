@@ -468,5 +468,6 @@ exec = checkupdates | wc -l
 interval = 120
 format-underline = #000055 
 format-prefix = "  "
+click-left = st -e get_arch_news
 
 ; vim:ft=dosini
