@@ -5,6 +5,8 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 multihead_desktops='IV V VI'
 bspc monitor eDP1 -d I II III 
 
+dunst &
+
 HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
 if [ $HDMI1_status == 'connected' ]; then
 	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 && bgdice

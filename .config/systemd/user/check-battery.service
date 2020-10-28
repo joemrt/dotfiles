@@ -1,0 +1,2 @@
+[Service]
+ExecStart = /home/martin/bin/battery_warning

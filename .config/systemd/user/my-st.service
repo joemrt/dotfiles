@@ -1,0 +1,6 @@
+[Unit]
+Description=Combination of tmux with st
+
+[Service]
+ExecStart=/usr/bin/st -e systemd-run --user --scope tmux new-session -A -s st
+; ExecStart=/usr/bin/st -e tmux new-session -A -s st

@@ -1,0 +1,10 @@
+[Unit]
+Description=Check battery state
+
+[Timer]
+AccuracySec=1s
+OnActiveSec=30s
+OnUnitActiveSec=30s
+
+[Install]
+WantedBy=timers.target
