@@ -6,6 +6,7 @@ multihead_desktops='IV V VI'
 bspc monitor eDP1 -d I II III 
 
 dunst &
+picom -b
 
 HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
 if [ $HDMI1_status == 'connected' ]; then
@@ -38,7 +39,7 @@ bgdice
 xset s off -dpms
 
 # transparency
-picom &
+# picom -b
 
 # automount devices
 udiskie --no-notify &
