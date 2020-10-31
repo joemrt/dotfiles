@@ -43,6 +43,9 @@ picom &
 # automount devices
 udiskie --no-notify &
 
+# start DE own services
+systemctl --user start check-battery.timer
+
 # Window rules
 #######
 # bspc rule -a Gimp desktop='^8' state=floating follow=on
