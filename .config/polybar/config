@@ -417,6 +417,8 @@ menu-0-4 = 
 menu-0-4-exec = blueman-manager &>/dev/null &
 menu-0-5 = 
 menu-0-5-exec = nm-connection-editor &>/dev/null &
+menu-0-6 = 
+menu-0-6-exec = timeshift-launcher &>/dev/null &
 
 
 menu-1-0 = cancel
