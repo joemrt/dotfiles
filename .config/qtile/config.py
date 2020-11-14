@@ -33,16 +33,21 @@ from libqtile.utils import guess_terminal
 import os
 
 
-os.system('picom -b')
-os.system('bgdice')
-os.system('dunst &')
-# automount devices
-os.system('udiskie --no-notify &')
-# start DE own services
-os.system('systemctl --user start check-battery.timer')
+# shell scripts
+os.system('/home/martin/.config/qtile/autostart.sh')
 
 mod = "mod4"
 terminal = guess_terminal()
+
+
+def window_to_other_screen(qtile):
+    current_screen = qtile.screens.index(qtile.current_screen)
+    other_screen = (current_screen + 1) % 2 
+    with open('/home/martin/tmp/qtile.out', 'w') as f:
+        f.write('%i' % (other_screen,))
+    group_on_other_screen = qtile.screens[other_screen].group.name
+    qtile.current_window.togroup(group_on_other_screen)
+
 
 keys = [
     # Switch between windows in current stack pane
@@ -58,44 +63,48 @@ keys = [
     # Move windows up or down in current stack
     Key([mod, "control"], "k", lazy.layout.shuffle_down(),
         desc="Move window down in current stack "),
-    Key([mod, "control"], "j", lazy.layout.shuffle_up(),
-        desc="Move window up in current stack "),
+Key([mod, "control"], "j", lazy.layout.shuffle_up(),
+    desc="Move window up in current stack "),
 
-    # Switch window focus to other pane(s) of stack
-    Key([mod], "c", lazy.layout.next(),
-        desc="Switch window focus to other pane(s) of stack"),
+# Switch window focus to other pane(s) of stack
+Key([mod], "c", lazy.layout.next(),
+    desc="Switch window focus to other pane(s) of stack"),
 
-    # Swap panes of split stack
-    Key([mod, "shift"], "R", lazy.layout.rotate(),
-        desc="Swap panes of split stack"),
+# Swap panes of split stack
+Key([mod, "shift"], "R", lazy.layout.rotate(),
+    desc="Swap panes of split stack"),
 
-    # Toggle between split and unsplit sides of stack.
-    # Split = all windows displayed
-    # Unsplit = 1 window displayed, like Max layout, but still with
-    # multiple stack panes
-    Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
-        desc="Toggle between split and unsplit sides of stack"),
-    Key([mod], "Return", lazy.spawn('st -e tmux'), desc="Launch terminal"),
+# Toggle between split and unsplit sides of stack.
+# Split = all windows displayed
+# Unsplit = 1 window displayed, like Max layout, but still with
+# multiple stack panes
+Key([mod, "shift"], "Return", lazy.layout.toggle_split(),
+    desc="Toggle between split and unsplit sides of stack"),
+Key([mod], "Return", lazy.spawn('st -e tmux'), desc="Launch terminal"),
 
-    # Toggle between different layouts as defined below
-    Key([mod], "m", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod, 'shift'], "w", lazy.window.kill(), desc="Kill focused window"),
+# Toggle between different layouts as defined below
+Key([mod], "m", lazy.next_layout(), desc="Toggle between layouts"),
+Key([mod, 'shift'], "w", lazy.window.kill(), desc="Kill focused window"),
 
-    Key([mod, "mod1"], "r", lazy.restart(), desc="Restart qtile"),
-    Key([mod, "mod1"], "q", lazy.shutdown(), desc="Shutdown qtile"),
-    Key([mod], "r", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
-    Key([mod], "d", lazy.spawn('dmenu_run'),
-        desc="Spawn a command using a prompt widget"),
+Key([mod, "mod1"], "r", lazy.restart(), desc="Restart qtile"),
+Key([mod, "mod1"], "q", lazy.shutdown(), desc="Shutdown qtile"),
+Key([mod], "r", lazy.spawncmd(),
+    desc="Spawn a command using a prompt widget"),
+Key([mod], "d", lazy.spawn('dmenu_run'),
+    desc="Spawn a command using a prompt widget"),
 
-    # Multimedia
-    Key([], "XF86AudioRaiseVolume", lazy.spawn("/home/martin/bin/increase_volume")),
-    Key([], "XF86AudioLowerVolume", lazy.spawn("/home/martin/bin/decrease_volume")),
-    Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute 0 toggle") ),
-    Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5")),
-    Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5")),
+# Multimedia
+Key([], "XF86AudioRaiseVolume", lazy.spawn("/home/martin/bin/increase_volume")),
+Key([], "XF86AudioLowerVolume", lazy.spawn("/home/martin/bin/decrease_volume")),
+Key([], "XF86AudioMute", lazy.spawn("pactl set-sink-mute 0 toggle") ),
+Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5")),
+Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5")),
+
+# Screen Toggling
+Key([mod, "mod1"], "period", lazy.next_screen(), desc='Next monitor'),
+Key([mod, "mod1"], "comma", lazy.function(window_to_other_screen), desc='Next monitor'),
 ]
-	
+    
 
 groups = [Group(i) for i in "123"]
 
@@ -103,16 +112,16 @@ for i in groups:
     keys.extend([
         # mod1 + letter of group = switch to group
         Key([mod], i.name, lazy.group[i.name].toscreen(),
-            desc="Switch to group {}".format(i.name)),
+                desc="Switch to group {}".format(i.name)),
 
-        # mod1 + shift + letter of group = switch to & move focused window to group
-        Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=True),
-            desc="Switch to & move focused window to group {}".format(i.name)),
-        # Or, use below if you prefer not to switch to that group.
-        # # mod1 + shift + letter of group = move focused window to group
-        # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
-        #     desc="move focused window to group {}".format(i.name)),
-    ])
+            # mod1 + shift + letter of group = switch to & move focused window to group
+            Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=False),
+                desc="Switch to & move focused window to group {}".format(i.name)),
+            # Or, use below if you prefer not to switch to that group.
+            # # mod1 + shift + letter of group = move focused window to group
+            # Key([mod, "shift"], i.name, lazy.window.togroup(i.name),
+            #     desc="move focused window to group {}".format(i.name)),
+        ])
 
 layouts = [
     # layout.Stack(num_stacks=2),
@@ -160,6 +169,28 @@ screens = [
             24,
         ),
     ),
+    Screen(
+        bottom=bar.Bar(
+            [
+                # widget.CurrentLayout(),
+                widget.GroupBox(),
+                widget.Prompt(),
+                widget.WindowName(),
+                widget.Chord(
+                    chords_colors={
+                        'launch': ("#ff0000", "#ffffff"),
+                    },
+                    name_transform=lambda name: name.upper(),
+                ),
+                # widget.TextBox("default config", name="default"),
+                # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
+                widget.Systray(),
+                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+                widget.QuickExit(),
+            ],
+            24,
+        ),
+    ),
 ]
 
 # Drag floating layouts.
@@ -175,7 +206,7 @@ dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
 main = None  # WARNING: this is deprecated and will be removed soon
 follow_mouse_focus = True
-bring_front_click = False
+bring_front_click = True
 cursor_warp = False
 floating_layout = layout.Floating(float_rules=[
     # Run the utility of `xprop` to see the wm class and name of an X client.
