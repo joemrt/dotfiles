@@ -90,8 +90,11 @@ Key([mod, "mod1"], "r", lazy.restart(), desc="Restart qtile"),
 Key([mod, "mod1"], "q", lazy.shutdown(), desc="Shutdown qtile"),
 Key([mod], "r", lazy.spawncmd(),
     desc="Spawn a command using a prompt widget"),
+# custom applications
 Key([mod], "d", lazy.spawn('dmenu_run'),
-    desc="Spawn a command using a prompt widget"),
+    desc="launch dmenu"),
+Key([mod, "shift"], "n", lazy.spawn('networkmanager_dmenu'),
+    desc="launch networmanager_dmenu"),
 
 # Multimedia
 Key([], "XF86AudioRaiseVolume", lazy.spawn("/home/martin/bin/increase_volume")),
@@ -140,9 +143,9 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='sans',
-    fontsize=21,
-    padding=3,
+    font='Cantarell Regular',
+    fontsize=18,
+    padding=5,
 )
 extension_defaults = widget_defaults.copy()
 
@@ -153,7 +156,7 @@ screens = [
                 # widget.CurrentLayout(),
                 widget.GroupBox(),
                 widget.Prompt(),
-                widget.WindowName(),
+                # widget.WindowName(),
                 widget.Chord(
                     chords_colors={
                         'launch': ("#ff0000", "#ffffff"),
@@ -162,11 +165,23 @@ screens = [
                 ),
                 # widget.TextBox("default config", name="default"),
                 # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                widget.Systray(),
+                # put all remaning widgets on the right
+                widget.TextBox(width=bar.STRETCH),
+                widget.BatteryIcon(),
+                widget.Battery(discharge_char='',
+                                charge_char='',
+                                format='{char} {percent:2.0%}({hour:d}:{min:02d})'),
+                widget.Wlan(interface='wlp3s0', 
+                            format=' {essid}'),
+                # widget.NetGraph(),
+                widget.TextBox(''),
+                widget.PulseVolume(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
+                widget.Systray(),
             ],
-            24,
+            33,
+            background='#222222',
+            opacity=1.00
         ),
     ),
     Screen(
@@ -175,7 +190,7 @@ screens = [
                 # widget.CurrentLayout(),
                 widget.GroupBox(),
                 widget.Prompt(),
-                widget.WindowName(),
+                # widget.WindowName(),
                 widget.Chord(
                     chords_colors={
                         'launch': ("#ff0000", "#ffffff"),
@@ -184,11 +199,21 @@ screens = [
                 ),
                 # widget.TextBox("default config", name="default"),
                 # widget.TextBox("Press &lt;M-r&gt; to spawn", foreground="#d75f5f"),
-                widget.Systray(),
+                # put all remaning widgets on the right
+                widget.TextBox(width=bar.STRETCH),
+                widget.BatteryIcon(),
+                widget.Battery(discharge_char='',
+                                charge_char='',
+                                format='{char} {percent:2.0%}({hour:d}:{min:02d})'),
+                widget.Wlan(interface='wlp3s0', 
+                            format='  {essid} '),
+                # widget.NetGraph(),
+                widget.PulseVolume(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.QuickExit(),
+                widget.Systray(),
             ],
-            24,
+            33,
+            background='#222222'
         ),
     ),
 ]

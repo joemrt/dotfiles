@@ -7,3 +7,5 @@ bgdice
 dunst &
 # start DE own services
 systemctl --user start check-battery.timer
+# turn of DPMS
+xset s off -dpms
