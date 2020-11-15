@@ -9,3 +9,6 @@ dunst &
 systemctl --user start check-battery.timer
 # turn of DPMS
 xset s off -dpms
+
+# polkit agent for authentification
+/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &>/dev/null &
