@@ -1,5 +1,5 @@
 #!/bin/bash
-xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 && bgdice
+xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 
 # automount devices
 udiskie --no-notify &
 picom -b

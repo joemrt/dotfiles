@@ -47,6 +47,16 @@ def window_to_other_screen(qtile):
     group_on_other_screen = qtile.screens[other_screen].group.name
     qtile.current_window.togroup(group_on_other_screen)
 
+def focus_to_other_screen(qtile):
+    current_screen = qtile.screens.index(qtile.current_screen)
+    other_screen = (current_screen + 1) % 2 
+    qtile.cmd_to_screen(other_screen)
+
+def custom_dmenu(qtile):
+    current_screen = qtile.screens.index(qtile.current_screen)
+    qtile.cmd_spawn('dmenu_run -m ' + str(current_screen))
+
+
 
 keys = [
     # Switch between windows in current stack pane
@@ -90,8 +100,7 @@ Key([mod, "mod1"], "q", lazy.shutdown(), desc="Shutdown qtile"),
 Key([mod], "r", lazy.spawncmd(),
     desc="Spawn a command using a prompt widget"),
 # custom applications
-Key([mod], "d", lazy.spawn('dmenu_run'),
-    desc="launch dmenu"),
+Key([mod], "d", lazy.function(custom_dmenu)),
 Key([mod, "shift"], "n", lazy.spawn('networkmanager_dmenu'),
     desc="launch networmanager_dmenu"),
 
@@ -103,18 +112,18 @@ Key([], "XF86MonBrightnessUp", lazy.spawn("xbacklight -inc 5")),
 Key([], "XF86MonBrightnessDown", lazy.spawn("xbacklight -dec 5")),
 
 # Screen Toggling
-Key([mod, "mod1"], "period", lazy.next_screen(), desc='Next monitor'),
+Key([mod, "mod1"], "period", lazy.function(focus_to_other_screen), desc='Next monitor'),
 Key([mod, "mod1"], "comma", lazy.function(window_to_other_screen), desc='Next monitor'),
 ]
-    
+
 
 groups = [Group(i) for i in "123"]
 
 for i in groups:
     keys.extend([
-        # mod1 + letter of group = switch to group
-        Key([mod], i.name, lazy.group[i.name].toscreen(),
-                desc="Switch to group {}".format(i.name)),
+            # mod1 + letter of group = switch to group
+            Key([mod], i.name, lazy.group[i.name].toscreen(),
+                    desc="Switch to group {}".format(i.name)),
 
             # mod1 + shift + letter of group = switch to & move focused window to group
             Key([mod, "shift"], i.name, lazy.window.togroup(i.name, switch_group=False),
@@ -183,12 +192,12 @@ screens = [
                 widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/pavucontrol')}),
                 widget.PulseVolume(),
                 widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
-                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/timeshift-launcher')}),
-                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/system-config-printer')}),
-                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/blueman-manager')}),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/blueman-manager')}, foreground='#000099'),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/timeshift-launcher')}, foreground='#005577'),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/system-config-printer')}, foreground='#007755'),
                 CustomExit(command='systemctl reboot', foreground='#007700'),
-                CustomExit(command='systemctl hibernate', foreground='#555500'),
-                CustomExit(command='systemctl poweroff', foreground='#770000'),
+                CustomExit(command='systemctl hibernate', foreground='#ff5500'),
+                CustomExit(command='systemctl poweroff', foreground='#ff0000'),
                 widget.Systray(),
             ],
             33,
