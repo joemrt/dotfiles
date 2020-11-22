@@ -229,7 +229,7 @@ screens = [
                 # widget.NetGraph(),
                 widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/pavucontrol')}),
                 widget.PulseVolume(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+                widget.Clock(format='%Y-%m-%d %a %H:%M', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('st -e calcurse')}),
                 update_widget,
                 widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/blueman-manager')}, foreground='#000099'),
                 widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/timeshift-launcher')}, foreground='#005577'),
