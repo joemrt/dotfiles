@@ -24,13 +24,23 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+
+
+
+import os
+import subprocess
+from libqtile import hook
+
+home = os.path.expanduser('~')
+os.system(home + '/.config/qtile/autostart.sh')
+
+
 from typing import List  # noqa: F401
 
 from libqtile import bar, layout, widget
 from libqtile.config import Click, Drag, Group, Key, Screen
 from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
-import os
 
 from importlib import reload
 import my_widgets
@@ -38,8 +48,6 @@ reload(my_widgets)
 from my_widgets import CustomExit, update_widget
 
 
-# shell scripts
-os.system('/home/martin/.config/qtile/autostart.sh')
 
 mod = "mod4"
 terminal = guess_terminal()
@@ -247,6 +255,10 @@ screens = [
     Screen(
         bottom=bar.Bar(
             [
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/firefox')}),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/spotify')}),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/thunar')}),
+                # widget.CurrentLayout(),
                 # widget.CurrentLayout(),
                 widget.GroupBox(),
                 widget.Prompt(),
@@ -266,14 +278,24 @@ screens = [
                                 charge_char='',
                                 format='{char} {percent:2.0%}({hour:d}:{min:02d})'),
                 widget.Wlan(interface='wlp3s0', 
-                            format='  {essid} '),
+                            format=' {essid}', 
+                            mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/nm-connection-editor')}),
                 # widget.NetGraph(),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/pavucontrol')}),
                 widget.PulseVolume(),
-                widget.Clock(format='%Y-%m-%d %a %I:%M %p'),
+                widget.Clock(format='%Y-%m-%d %a %H:%M', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('st -e calcurse')}),
+                update_widget,
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/blueman-manager')}, foreground='#000099'),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/timeshift-launcher')}, foreground='#005577'),
+                widget.TextBox('', mouse_callbacks={'Button1': lambda qtile: qtile.cmd_spawn('/usr/bin/system-config-printer')}, foreground='#007755'),
+                CustomExit(command='systemctl reboot', foreground='#007700'),
+                CustomExit(command='systemctl hibernate', foreground='#ff5500'),
+                CustomExit(command='systemctl poweroff', foreground='#ff0000'),
                 widget.Systray(),
             ],
             33,
-            background='#222222'
+            background='#222222',
+            opacity=1.00
         ),
     ),
 ]
