@@ -10,7 +10,7 @@ picom -b
 
 HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
 if [ $HDMI1_status == 'connected' ]; then
-	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 && bgdice
+	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 
 	bspc monitor HDMI1 -d $multihead_desktops
 else
 	xrandr --output eDP1 --auto 

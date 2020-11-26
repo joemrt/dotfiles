@@ -1,4 +1,4 @@
-#
+
 # wm independent hotkeys
 #
 
@@ -8,7 +8,13 @@ super + Return
 
 # program launcher
 super + d
-	dmenu_run 
+	monitor=$(bspc query -M -d --names); \
+	if [[ $monitor = "HDMI1" ]]; then \
+		mon_id=1;\
+	else \
+		mon_id=0;\
+	fi;\
+	dmenu_run -m $mon_id
 
 # make sxhkd reload its configuration files:
 super + Escape
@@ -149,4 +155,10 @@ super + {Left,Down,Up,Right}
 super + R
 	bspc node @/ -R 90	
 
+# move node to next screen
+super + alt + comma
+	bspc node -m next
 
+# move focus to next screen
+super + alt + period
+	bspc monitor -f next

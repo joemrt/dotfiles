@@ -59,7 +59,7 @@ font-5 = Font Awesome 5 Brands:pixelsize=13;2
 modules-left = homebutton firefox spotify thunderbird bspwm i3 
 modules-center = mpd
 ; modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
-modules-right = xbacklight pulseaudio xkeyboard memory cpu updates wlan eth battery date 
+modules-right = xbacklight pulseaudio xkeyboard memory cpu updates wlan eth battery customdate 
 
 tray-position = right
 tray-padding = 2
@@ -473,5 +473,14 @@ interval = 300
 format-underline = #000055 
 format-prefix = "  "
 click-left = st -e get_arch_news &>/dev/null &
+
+[module/customdate]
+type = custom/script
+interval = 5
+exec = echo ' ' $(date +%H:%M)
+click-left = st -e calcurse &>/dev/null &
+format-prefix =    
+format-underline = #0a6cf5
+
 
 ; vim:ft=dosini
