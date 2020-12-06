@@ -1,6 +1,5 @@
 #! /bin/sh
 
-pgrep -x sxhkd > /dev/null || sxhkd &
 
 multihead_desktops='IV V VI'
 bspc monitor eDP1 -d I II III 
@@ -9,18 +8,23 @@ dunst &
 picom -b
 
 HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
-if [ $HDMI1_status == 'connected' ]; then
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
+if [[ $HDMI1_status = 'connected' ]]; then
 	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 
 	bspc monitor HDMI1 -d $multihead_desktops
 else
-	xrandr --output eDP1 --auto 
+	xrandr --output eDP1 --auto  --output HDMI1 --off
 	for desk in $multihead_desktops; do
 		bspc desktop $desk --to-monitor 'eDP1'
 		bspc desktop $desk --remove
 	done
 fi
 
-
+# if sxhd is running, reload it
+# pgrep -x sxhkd > /dev/null && pkill -USR1 -x sxhkd
+# if it isn't, start it 
+pgrep -x sxhkd > /dev/null || sxhkd &
 
 
 bspc config border_width         2
