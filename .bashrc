@@ -25,7 +25,7 @@ function mmount()
 
 function reflclean()
 {
-	sudo reflector -c Germany -a 6 --sort rate --save /etc/pacman.d/mirrorlist
+	sudo reflector --country Germany --latest 10 --sort rate  --save /etc/pacman.d/mirrorlist
 }
 
 function multiheadright()
