@@ -8,13 +8,11 @@ super + Return
 
 # program launcher
 super + d
-	monitor=$(bspc query -M -d --names); \
-	if [[ $monitor = "HDMI1" ]]; then \
-		mon_id=1;\
-	else \
-		mon_id=0;\
-	fi;\
-	dmenu_run -m $mon_id
+	rofi_bspwm -show run
+
+# select window with rofi
+super + alt + Tab
+	rofi_bspwm -show window
 
 # make sxhkd reload its configuration files:
 super + Escape
