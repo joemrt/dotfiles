@@ -10,6 +10,11 @@ super + Return
 super + d
 	rofi_bspwm -show run
 
+# desktop program launcher
+super + shift + d
+	rofi_bspwm -icon-theme "Arc" -show-icons -show drun
+
+
 # select window with rofi
 super + alt + Tab
 	rofi_bspwm -show window

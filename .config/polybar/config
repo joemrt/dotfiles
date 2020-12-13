@@ -480,6 +480,7 @@ interval = 300
 format-underline = #000055 
 format-prefix = "  "
 click-left = st -e get_arch_news &>/dev/null &
+click-right = st -e bash -c 'checkupdates | less' 
 
 [module/customdate]
 type = custom/script
