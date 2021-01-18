@@ -57,7 +57,7 @@ font-3 = Font Awesome 5 Free:pixelsize=13;2
 font-4 = Font Awesome 5 Free Solid:pixelsize=13;2
 font-5 = Font Awesome 5 Brands:pixelsize=13;2
 
-modules-left = homebutton firefox spotify thunar bspwm i3 
+modules-left = homebutton browser spotify thunar bspwm i3 
 modules-center = mpd
 ; modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
 modules-right = xbacklight pulseaudio xkeyboard memory cpu updates wlan eth battery customdate 
@@ -463,6 +463,11 @@ margin-bottom = 5
 type = custom/text
 content =    
 click-left = firefox &>/dev/null &
+
+[module/browser]
+type = custom/text
+content =    
+click-left = brave &>/dev/null &
 
 [module/spotify]
 type = custom/text
