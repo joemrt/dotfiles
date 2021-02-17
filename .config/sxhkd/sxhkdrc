@@ -4,7 +4,7 @@
 
 # terminal emulator
 super + Return
-	st -e tmux
+	alacritty -e tmux
 
 # program launcher
 super + d

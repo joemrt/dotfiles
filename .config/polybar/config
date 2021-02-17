@@ -56,6 +56,7 @@ font-2 = siji:pixelsize=13;1
 font-3 = Font Awesome 5 Free:pixelsize=13;2
 font-4 = Font Awesome 5 Free Solid:pixelsize=13;2
 font-5 = Font Awesome 5 Brands:pixelsize=13;2
+font-6 = "NotoColorEmoji:scale=7:pixelsize=13;2"
 
 modules-left = homebutton browser spotify thunar bspwm i3 
 modules-center = mpd
@@ -193,7 +194,7 @@ label-song-ellipsis = true
 type = internal/xbacklight
 
 format = <label> <bar>
-label = 
+label = 💻
 
 bar-width = 10
 bar-indicator = |
@@ -285,7 +286,7 @@ label =  %date% %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume =  %percentage%%
+label-volume = 🔊 %percentage%%
 label-volume-foreground = ${root.foreground}
 
 label-muted = 🔇 muted
@@ -343,16 +344,16 @@ adapter = ADP0
 full-at = 98
 
 
-label-charging =  %percentage%% 
+label-charging = ⚡%percentage%% 
 ; format-charging = <animation-charging> <label-charging>
-format-charging-underline = #00ff00
+format-charging-underline = 🔋🔌#00ff00
 
-label-discharging =  %percentage%% 
+label-discharging =  🔋 %percentage%% 
 ; format-discharging = <animation-discharging> <label-discharging>
 ; format-discharging-underline = ${self.format-charging-underline}
 format-discharging-underline = #ffb52a
 
-format-full-prefix = " "
+format-full-prefix = "🔋️ "
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
@@ -399,7 +400,7 @@ expand-right = true
 
 format-spacing = 1
 
-label-open = " "
+label-open = " 🐧"
 label-open-foreground = #00aaff
 label-close =  cancel
 label-close-foreground = #ff0055
@@ -412,25 +413,27 @@ menu-0-1 = power off
 menu-0-1-exec = menu-open-2
 menu-0-2 = hibernate 
 menu-0-2-exec = menu-open-3
-menu-0-3 = 
+menu-0-3 = 🎧
 menu-0-3-exec = pavucontrol &>/dev/null &
 menu-0-4 = 
 menu-0-4-exec = blueman-manager &>/dev/null &
-menu-0-5 = 
+menu-0-5 = 🌐
 menu-0-5-exec = nm-connection-editor &>/dev/null &
-menu-0-6 = 
+menu-0-6 = 🖨️
 menu-0-6-exec = system-config-printer &>/dev/null &
-menu-0-7 = 
+menu-0-7 = 📩
 menu-0-7-exec = timeshift-launcher &>/dev/null &
-menu-0-8 = 
+menu-0-8 = 📷
 menu-0-8-exec = cheese &>/dev/null &
-menu-0-9 = 
+menu-0-9 = ✂️
 menu-0-9-exec = xfce4-screenshooter &>/dev/null &
-menu-0-10 = 
+menu-0-10 = 🧮
 menu-0-10-exec = galculator &>/dev/null &
-menu-0-11 = 
+menu-0-11 = 📬
 menu-0-11-exec = thunderbird &>/dev/null &
-
+menu-0-12 = 
+menu-0-12-exec = firefox &>/dev/null &
+   
 
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
@@ -490,7 +493,7 @@ type = custom/script
 exec = checkupdates 2>/dev/null | wc -l 2>/dev/null
 interval = 300
 format-underline = #000055 
-format-prefix = "  "
+format-prefix = "🛠️  "
 click-left = st -e get_arch_news &>/dev/null &
 click-right = st -e bash -c 'checkupdates | less' 
 
@@ -499,7 +502,7 @@ type = custom/script
 interval = 5
 exec = echo ' ' $(date +%H:%M)
 click-left = st -e calcurse &>/dev/null &
-format-prefix =    
+format-prefix = 🕙  
 format-underline = #0a6cf5
 
 
