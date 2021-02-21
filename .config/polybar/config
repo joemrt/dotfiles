@@ -17,12 +17,12 @@
 
 [colors]
 ;background = ${xrdb:color0:#222}
-background = #222033
-background-alt = #444
+background = #AA000000
+background-alt = #111111
 ;foreground = ${xrdb:color7:#222}
 foreground = #ffffff
 foreground-alt = #555
-primary = #ffb52a
+primary = #000033
 secondary = #e60053
 alert = #bd2c40
 
@@ -81,7 +81,7 @@ wm-restack = bspwm
 cursor-click = pointer
 cursor-scroll = ns-resize
 
-bottom = true
+bottom = false
 
 [bar/multiheadbar]
 inherit = bar/custombar
@@ -97,10 +97,10 @@ blacklist-0 = num lock
 
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+; format-prefix-underline = ${colors.secondary}
 
 label-layout =   %layout%
-label-layout-underline = ${colors.secondary}
+; label-layout-underline = ${colors.secondary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
@@ -217,7 +217,7 @@ type = internal/cpu
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
+; format-underline = #f90000
 label =  %percentage:2%%
 
 [module/memory]
@@ -225,7 +225,7 @@ type = internal/memory
 interval = 2
 format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #4bffdc
+; format-underline = #4bffdc
 label =  %percentage_used%%
 
 [module/wlan]
@@ -234,7 +234,7 @@ interface = wlp3s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = #9f78e1
+; format-connected-underline = #9f78e1
 label-connected = %essid%
 
 format-disconnected =
@@ -243,11 +243,11 @@ format-disconnected =
 ;label-disconnected = %ifname% disconnected
 ;label-disconnected-foreground = ${colors.foreground-alt}
 
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
+ramp-signal-0 = ▂
+ramp-signal-1 = ▂▄
+ramp-signal-2 = ▂▄▆
+ramp-signal-3 = ▂▄▆
+ramp-signal-4 = ▂▄▆█
 ramp-signal-foreground = ${colors.foreground-alt}
 
 [module/eth]
@@ -286,7 +286,7 @@ label =  %date% %time%
 type = internal/pulseaudio
 
 format-volume = <label-volume> <bar-volume>
-label-volume = 🔊 %percentage%%
+label-volume =   %percentage%%
 label-volume-foreground = ${root.foreground}
 
 label-muted = 🔇 muted
@@ -344,22 +344,24 @@ adapter = ADP0
 full-at = 98
 
 
-label-charging = ⚡%percentage%% 
+label-charging = 🔌%percentage%% 
 ; format-charging = <animation-charging> <label-charging>
-format-charging-underline = 🔋🔌#00ff00
+format-charging = <ramp-capacity> <label-charging>
+format-charging-underline = #00ff00
 
-label-discharging =  🔋 %percentage%% 
+label-discharging =  %percentage%% 
 ; format-discharging = <animation-discharging> <label-discharging>
-; format-discharging-underline = ${self.format-charging-underline}
-format-discharging-underline = #ffb52a
+ format-discharging = <ramp-capacity> <label-discharging>
+;format-discharging-underline = ${self.format-charging-underline}
+format-discharging-underline = ${colors.primary}
 
-format-full-prefix = "🔋️ "
+; format-full-prefix = ""
 format-full-prefix-foreground = ${colors.foreground-alt}
 format-full-underline = ${self.format-charging-underline}
 
-ramp-capacity-0 = 
-ramp-capacity-1 = 
-ramp-capacity-2 = 
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
 ramp-capacity-foreground = ${colors.foreground-alt}
 
 animation-charging-0 = 
@@ -413,23 +415,23 @@ menu-0-1 = power off
 menu-0-1-exec = menu-open-2
 menu-0-2 = hibernate 
 menu-0-2-exec = menu-open-3
-menu-0-3 = 🎧
+menu-0-3 = 
 menu-0-3-exec = pavucontrol &>/dev/null &
 menu-0-4 = 
 menu-0-4-exec = blueman-manager &>/dev/null &
-menu-0-5 = 🌐
+menu-0-5 = 
 menu-0-5-exec = nm-connection-editor &>/dev/null &
-menu-0-6 = 🖨️
+menu-0-6 = 
 menu-0-6-exec = system-config-printer &>/dev/null &
-menu-0-7 = 📩
+menu-0-7 = 
 menu-0-7-exec = timeshift-launcher &>/dev/null &
-menu-0-8 = 📷
+menu-0-8 = 
 menu-0-8-exec = cheese &>/dev/null &
-menu-0-9 = ✂️
+menu-0-9 = 
 menu-0-9-exec = xfce4-screenshooter &>/dev/null &
-menu-0-10 = 🧮
+menu-0-10 = 
 menu-0-10-exec = galculator &>/dev/null &
-menu-0-11 = 📬
+menu-0-11 = 
 menu-0-11-exec = thunderbird &>/dev/null &
 menu-0-12 = 
 menu-0-12-exec = firefox &>/dev/null &
@@ -456,7 +458,7 @@ screenchange-reload = true
 ;compositing-background = screen
 ;compositing-foreground = source
 ;compositing-border = over
-; pseudo-transparency = false
+pseudo-transparency = false
 
 [global/wm]
 margin-top = 5
@@ -470,11 +472,13 @@ click-left = firefox &>/dev/null &
 [module/browser]
 type = custom/text
 content =    
+content-foreground = #ffa500
 click-left = brave &>/dev/null &
 
 [module/spotify]
 type = custom/text
 content =    
+content-foreground = #00ff00
 click-left = spotify &>/dev/null &
 
 [module/thunderbird]
@@ -485,6 +489,7 @@ click-left = thunderbird &>/dev/null &
 [module/thunar]
 type = custom/text
 content = 
+content-foreground = #ffffff
 click-left = thunar &>/dev/null &
 
 [module/updates]
@@ -492,7 +497,7 @@ click-left = thunar &>/dev/null &
 type = custom/script 
 exec = checkupdates 2>/dev/null | wc -l 2>/dev/null
 interval = 300
-format-underline = #000055 
+; format-underline = #000055 
 format-prefix = "🛠️  "
 click-left = st -e get_arch_news &>/dev/null &
 click-right = st -e bash -c 'checkupdates | less' 
@@ -503,7 +508,7 @@ interval = 5
 exec = echo ' ' $(date +%H:%M)
 click-left = st -e calcurse &>/dev/null &
 format-prefix = 🕙  
-format-underline = #0a6cf5
+format-underline = ${colors.primary}
 
 
 ; vim:ft=dosini
