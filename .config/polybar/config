@@ -50,7 +50,7 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 2
 
-font-0 = fixed:pixelsize=13;1
+font-0 = Cantarell:pixelsize=13;1
 font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = siji:pixelsize=13;1
 font-3 = Font Awesome 5 Free:pixelsize=13;2
@@ -499,14 +499,14 @@ exec = checkupdates 2>/dev/null | wc -l 2>/dev/null
 interval = 300
 ; format-underline = #000055 
 format-prefix = "🛠️  "
-click-left = st -e get_arch_news &>/dev/null &
-click-right = st -e bash -c 'checkupdates | less' 
+click-left = alacritty -e get_arch_news &>/dev/null &
+click-right = alacritty -e bash -c 'checkupdates | less' 
 
 [module/customdate]
 type = custom/script
 interval = 5
 exec = echo ' ' $(date +%H:%M)
-click-left = st -e calcurse &>/dev/null &
+click-left = alacritty -e calcurse &>/dev/null &
 format-prefix = 🕙  
 format-underline = ${colors.primary}
 
