@@ -58,7 +58,7 @@ font-4 = Font Awesome 5 Free Solid:pixelsize=13;2
 font-5 = Font Awesome 5 Brands:pixelsize=13;2
 font-6 = "NotoColorEmoji:scale=7:pixelsize=13;2"
 
-modules-left = homebutton browser spotify thunar bspwm i3 
+modules-left = homebutton browser firefox spotify thunar bspwm i3 
 modules-center = mpd
 ; modules-right = filesystem xbacklight alsa pulseaudio xkeyboard memory cpu wlan eth battery temperature date powermenu
 modules-right = xbacklight pulseaudio xkeyboard memory cpu updates wlan eth battery customdate 
@@ -415,27 +415,28 @@ menu-0-1 = power off
 menu-0-1-exec = menu-open-2
 menu-0-2 = hibernate 
 menu-0-2-exec = menu-open-3
-menu-0-3 = 
-menu-0-3-exec = pavucontrol &>/dev/null &
-menu-0-4 = 
-menu-0-4-exec = blueman-manager &>/dev/null &
-menu-0-5 = 
-menu-0-5-exec = nm-connection-editor &>/dev/null &
-menu-0-6 = 
-menu-0-6-exec = system-config-printer &>/dev/null &
-menu-0-7 = 
-menu-0-7-exec = timeshift-launcher &>/dev/null &
-menu-0-8 = 
-menu-0-8-exec = cheese &>/dev/null &
-menu-0-9 = 
-menu-0-9-exec = xfce4-screenshooter &>/dev/null &
-menu-0-10 = 
-menu-0-10-exec = galculator &>/dev/null &
-menu-0-11 = 
-menu-0-11-exec = thunderbird &>/dev/null &
-menu-0-12 = 
-menu-0-12-exec = firefox &>/dev/null &
-   
+menu-0-3 = 
+menu-0-3-exec = rofi_bspwm -icon-theme "Arc" -show-icons -show drun
+menu-0-4 = 
+menu-0-4-exec = pavucontrol &>/dev/null &
+menu-0-5 = 
+menu-0-5-exec = blueman-manager &>/dev/null &
+menu-0-6 = 
+menu-0-6-exec = nm-connection-editor &>/dev/null &
+menu-0-7 = 
+menu-0-7-exec = system-config-printer &>/dev/null &
+menu-0-8 = 
+menu-0-8-exec = timeshift-launcher &>/dev/null &
+menu-0-9 = 
+menu-0-9-exec = cheese &>/dev/null &
+menu-0-10 = 
+menu-0-10-exec = xfce3-screenshooter &>/dev/null &
+menu-0-11 = 
+menu-0-11-exec = galculator &>/dev/null &
+menu-0-12 = 
+menu-0-12-exec = thunderbird &>/dev/null &
+menu-0-13 = 
+menu-0-13-exec = vlc &>/dev/null &
 
 menu-1-0 = cancel
 menu-1-0-exec = menu-open-0
@@ -467,12 +468,13 @@ margin-bottom = 5
 [module/firefox]
 type = custom/text
 content =    
+content-foreground = #ff5500
 click-left = firefox &>/dev/null &
 
 [module/browser]
 type = custom/text
-content =    
-content-foreground = #ffa500
+content = 
+content-foreground = #ff0100
 click-left = brave &>/dev/null &
 
 [module/spotify]
@@ -492,8 +494,13 @@ content = 
 content-foreground = #ffffff
 click-left = thunar &>/dev/null &
 
-[module/updates]
+[module/vlc]
+type = custom/text
+content = 
+content-foreground = #ffffff
+click-left = vlc &>/dev/null &
 
+[module/updates]
 type = custom/script 
 exec = checkupdates 2>/dev/null | wc -l 2>/dev/null
 interval = 300
