@@ -20,3 +20,4 @@ systemctl --user start check-battery.timer
 
 # polkit agent for authentification
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &>/dev/null &
+

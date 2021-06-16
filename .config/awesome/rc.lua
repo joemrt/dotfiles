@@ -18,10 +18,12 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
--- custom 
+-- custom installs
 local batteryarc_widget = require("awesome-wm-widgets.battery-widget.battery")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
+--- from luarocks
+
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -51,6 +53,9 @@ end
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init(gears.filesystem.get_configuration_dir() .. "mytheme.lua")
+
+
+--  pick random wallpaper
 for s = 1, screen.count() do
 	gears.wallpaper.maximized(beautiful.wallpaper, s, true)
 end
@@ -171,6 +176,21 @@ local tasklist_buttons = gears.table.join(
                      awful.button({ }, 5, function ()
                                               awful.client.focus.byidx(-1)
                                           end))
+
+-- -- Load wallpapers into a table
+-- wallpaper_table = {}
+-- for line in io.lines('/home/martin/.config/awesome/wallpapers.txt') do
+--     table.insert(wallpaper_table, line)
+-- end
+
+wallpaper_handle = io.popen('ls /usr/share/backgrounds/cynicalteam/*.{jpg,png}')
+wallpaper_table = {}
+for wallpaper_item in wallpaper_handle:lines() do
+	table.insert(wallpaper_table, wallpaper_item)
+end
+math.randomseed(os.time())
+wallpaper_handle:close()
+beautiful.wallpaper = wallpaper_table[math.random(#wallpaper_table)]
 
 local function set_wallpaper(s)
     -- Wallpaper
@@ -605,3 +625,5 @@ end)
 client.connect_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
+-- trial
+
