@@ -11,7 +11,7 @@ local wibox = require("wibox")
 -- Theme handling library
 local beautiful = require("beautiful")
 -- Notification library
--- local naughty = require("naughty")
+local naughty = require("naughty")
 local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
@@ -22,7 +22,20 @@ require("awful.hotkeys_popup.keys")
 local batteryarc_widget = require("awesome-wm-widgets.battery-widget.battery")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
---- from luarocks
+local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
+local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
+-- watch box
+watch_textbox = wibox.widget.textbox()
+watch_textbox.font =  "Cantarell 12"
+local checkupdates = awful.widget.watch('bash -c "echo \\ \\  $(checkupdates | wc -l)\\ "', 60, nil,watch_textbox)
+
+watch_textbox:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+		os.execute('alacritty -e bash -c \'checkupdates | less\' &') 	  elseif button == 3 then
+		os.execute('alacritty -e get_arch_news &>/dev/null &') 
+	end
+    end)
 
 
 -- {{{ Error handling
@@ -177,12 +190,6 @@ local tasklist_buttons = gears.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
--- -- Load wallpapers into a table
--- wallpaper_table = {}
--- for line in io.lines('/home/martin/.config/awesome/wallpapers.txt') do
---     table.insert(wallpaper_table, line)
--- end
-
 wallpaper_handle = io.popen('ls /usr/share/backgrounds/cynicalteam/*.{jpg,png}')
 wallpaper_table = {}
 for wallpaper_item in wallpaper_handle:lines() do
@@ -246,18 +253,23 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+	brightness_widget{type = 'icon_and_text',
+		program = 'xbacklight',
+		step = 5}, 
             layout = wibox.layout.fixed.horizontal,
 	    net_speed_widget(),
             wibox.widget.systray(),
 	    batteryarc_widget({show_current_level = true, arc_thickness = 3}),
+	    checkupdates,
             mytextclock,
+            mylauncher,
             s.mylayoutbox,
+	    logout_menu_widget(),
         },
     }
 end)
@@ -294,8 +306,8 @@ globalkeys = gears.table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
-              {description = "show main menu", group = "awesome"}),
+    -- awful.key({ modkey,           }, "w", function () mymainmenu:show() end,
+    --           {description = "show main menu", group = "awesome"}),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift"   }, "j", function () awful.client.swap.byidx(  1)    end,
@@ -387,9 +399,11 @@ globalkeys = gears.table.join(
     awful.key({}, "XF86AudioMute", 
     	      function() awful.spawn('pactl set-sink-mute 0 toggle') end),
     awful.key({}, "XF86MonBrightnessUp", 
-    	      function() awful.spawn('xbacklight -inc 10 ') end),
+    	      function() brightness_widget:inc() end),
     awful.key({}, "XF86MonBrightnessDown", 
-    	      function() awful.spawn('xbacklight -dec 10 ') end)
+    	      function() brightness_widget:dec()  end),
+    awful.key({ modkey         }, ";", function () brightness_widget:inc() end, {description = "increase brightness", group = "custom"}),
+    awful.key({ modkey, "Shift"}, ";", function () brightness_widget:dec() end, {description = "decrease brightness", group = "custom"})
 )
 
 clientkeys = gears.table.join(
@@ -399,7 +413,7 @@ clientkeys = gears.table.join(
             c:raise()
         end,
         {description = "toggle fullscreen", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end,
+    awful.key({ modkey,           }, "w",      function (c) c:kill()                         end,
               {description = "close", group = "client"}),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ,
               {description = "toggle floating", group = "client"}),
