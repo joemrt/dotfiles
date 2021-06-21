@@ -17,19 +17,26 @@ local hotkeys_popup = require("awful.hotkeys_popup")
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
-
+-- systray_widget = wibox.widget.systray()
+systray_widget = wibox.widget{
+	widget = wibox.widget.systray,
+	opacity = 0
+}
 -- custom installs
 local batteryarc_widget = require("awesome-wm-widgets.battery-widget.battery")
 local calendar_widget = require("awesome-wm-widgets.calendar-widget.calendar")
 local net_speed_widget = require("awesome-wm-widgets.net-speed-widget.net-speed")
 local logout_menu_widget = require("awesome-wm-widgets.logout-menu-widget.logout-menu")
 local brightness_widget = require("awesome-wm-widgets.brightness-widget.brightness")
--- watch box
-watch_textbox = wibox.widget.textbox()
-watch_textbox.font =  "Cantarell 12"
-local checkupdates = awful.widget.watch('bash -c "echo \\ \\  $(checkupdates | wc -l)\\ "', 60, nil,watch_textbox)
 
-watch_textbox:connect_signal("button::press", 
+
+require("archmenu")
+-- checkupdates widget
+updates_textbox = wibox.widget.textbox()
+updates_textbox.font =  "Cantarell 12"
+local checkupdates = awful.widget.watch('bash -c "echo \\ \\  $(checkupdates | wc -l)\\ "', 60, nil,updates_textbox)
+
+updates_textbox:connect_signal("button::press", 
     function(_, _, _, button)
         if button == 1 then 
 		os.execute('alacritty -e bash -c \'checkupdates | less\' &') 	  elseif button == 3 then
@@ -37,6 +44,89 @@ watch_textbox:connect_signal("button::press",
 	end
     end)
 
+-- volume widget
+volume_textbox = wibox.widget.textbox()
+volume_textbox.font =  "Cantarell 12"
+local volume_widget, volume_timer = awful.widget.watch('bash -c "sink=$(pactl list short sinks | awk \'{print $1}\') && echo   $(pamixer --sink $sink --get-volume)\\ \\ " ', 5, nil,volume_textbox)
+
+volume_textbox:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 5 then 
+		awful.spawn('decrease_volume')
+		volume_timer:emit_signal('timeout')
+	elseif button == 4 then
+		awful.spawn('increase_volume')
+		volume_timer:emit_signal('timeout')
+	elseif button == 1 then
+		awful.spawn('pactl set-sink-mute 0 toggle')
+	elseif button == 3 then
+		awful.spawn('pavucontrol &')
+	end
+    end)
+
+
+firefox_launcher = wibox.widget {
+                    image = '/home/martin/.config/awesome/icons/firefox.png',
+                    resize = true,
+                    widget = wibox.widget.imagebox,
+		    valigh = 'center',
+                }
+            
+firefox_launcher:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+		awful.spawn('bash -c "firefox " &')
+	end
+    end)
+
+thunderbird_launcher = wibox.widget {
+                    image = '/home/martin/.config/awesome/icons/thunderbird.png',
+                    resize = true,
+                    widget = wibox.widget.imagebox,
+		    valigh = 'center',
+                }
+            
+thunderbird_launcher:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+		awful.spawn('bash -c "thunderbird " &')
+	end
+    end)
+
+thunar_launcher = wibox.widget {
+                    image = '/home/martin/.config/awesome/icons/folder.png',
+                    resize = true,
+                    widget = wibox.widget.imagebox,
+		    valigh = 'center',
+                }
+            
+thunar_launcher:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+	   awful.spawn('bash -c "thunar " &')
+	end
+    end)
+
+margin_thunar_launcher = wibox.container.margin(thunar_launcher,3,nil,2,2)
+
+spotify_launcher = wibox.widget {
+                    image = '/home/martin/.config/awesome/icons/spotify.png',
+                    resize = true,
+                    widget = wibox.widget.imagebox,
+		    valigh = 'center',
+                }
+            
+spotify_launcher:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+	   awful.spawn('bash -c "spotify " &')
+	end
+    end)
+
+margin_spotify_launcher = wibox.container.margin(spotify_launcher,nil,nil,3,3)
+--------
+
+--------
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -96,12 +186,12 @@ awful.layout.layouts = {
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
+    -- awful.layout.suit.fair,
     -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max,
-    awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.magnifier,
     -- awful.layout.suit.corner.nw,
     -- awful.layout.suit.corner.ne,
@@ -121,6 +211,7 @@ myawesomemenu = {
 }
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
+				    { "Applications", xdgmenu },
                                     { "open terminal", terminal }
                                   }
                         })
@@ -252,24 +343,29 @@ awful.screen.connect_for_each_screen(function(s)
     s.mywibox:setup {
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
+	    logout_menu_widget(),
+	    firefox_launcher,
+	    thunderbird_launcher,
+	    margin_thunar_launcher,
+	    margin_spotify_launcher,
+            s.mylayoutbox,
+            mylauncher,
             layout = wibox.layout.fixed.horizontal,
             s.mytaglist,
             s.mypromptbox,
         },
         s.mytasklist, -- Middle widget
         { -- Right widgets
+	volume_widget,
 	brightness_widget{type = 'icon_and_text',
 		program = 'xbacklight',
 		step = 5}, 
             layout = wibox.layout.fixed.horizontal,
 	    net_speed_widget(),
-            wibox.widget.systray(),
 	    batteryarc_widget({show_current_level = true, arc_thickness = 3}),
 	    checkupdates,
             mytextclock,
-            mylauncher,
-            s.mylayoutbox,
-	    logout_menu_widget(),
+            systray_widget
         },
     }
 end)
@@ -393,9 +489,9 @@ globalkeys = gears.table.join(
     	      function() awful.spawn.with_shell("networkmanager_dmenu") end, 
     	      {description = "run desktop rofi", group = "launcher"}),
     awful.key({}, "XF86AudioRaiseVolume", 
-    	      function() awful.spawn('increase_volume') end),
+    	      function() awful.spawn('increase_volume'); volume_timer:emit_signal('timeout') end),
     awful.key({}, "XF86AudioLowerVolume", 
-    	      function() awful.spawn('decrease_volume') end),
+    	      function() awful.spawn('decrease_volume'); volume_timer:emit_signal('timeout') end),
     awful.key({}, "XF86AudioMute", 
     	      function() awful.spawn('pactl set-sink-mute 0 toggle') end),
     awful.key({}, "XF86MonBrightnessUp", 
@@ -542,6 +638,7 @@ awful.rules.rules = {
           "pinentry",
         },
         class = {
+	  "Galculator",
           "Arandr",
           "Blueman-manager",
           "Gpick",
@@ -640,4 +737,3 @@ client.connect_signal("focus", function(c) c.border_color = beautiful.border_foc
 client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 -- trial
-

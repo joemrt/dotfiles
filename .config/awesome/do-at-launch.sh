@@ -26,7 +26,10 @@ HDMI1_status=$(xrandr -q | awk '/^HDMI1/{print $2}')
 
 if [[ $HDMI1_status = 'connected' ]]; then
 	xrandr --output eDP1 --auto --output HDMI1 --auto --right-of eDP1 
-	~/.fehbg
 else
 	xrandr --output eDP1 --auto  --output HDMI1 --off
 fi
+
+
+# fill xdg menu
+xdg_menu --format awesome --root-menu /etc/xdg/menus/arch-applications.menu > ~/.config/awesome/archmenu.lua
