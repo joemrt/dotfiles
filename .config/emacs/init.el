@@ -7,7 +7,7 @@
    ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
  '(custom-enabled-themes '(deeper-blue))
  '(package-selected-packages
-   '(auctex evil-commentary evil-surround use-package key-chord evil lua-mode ##)))
+   '(linum-relative auctex evil-commentary evil-surround use-package key-chord evil lua-mode ##)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -23,17 +23,47 @@
 (package-initialize)
 
 
+;; emulate vim behavior
+;; evil mode
 (setq evil-want-C-u-scroll t)
 (require 'evil)
 (evil-mode 1)
 (evil-commentary-mode)
 
+;; jk = Esc
 (require 'key-chord)
 (key-chord-mode 1)
 (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+
+;; logical line movement
+(define-key evil-normal-state-map  (kbd "C-j")  'next-line)
+(define-key evil-normal-state-map  (kbd "C-k")  'previous-line)
+
+
+(defun get-my-init()
+  "opens init.el in vertical split"
+  (interactive)
+  (split-window-horizontally)
+ (find-file "~/.config/emacs/init.el")
+  )
+
+(key-chord-define evil-normal-state-map  "ev"  'get-my-init)
 
 
 ;; auctex options
 (set-default 'preview-scale-function 1.2)
 
  (set-frame-parameter (selected-frame) 'alpha '(90  .   90))
+
+;; relative line numbers
+(require 'linum-relative)
+(setq linum-relative-backend 'display-line-numbers-mode)
+(linum-relative-global-mode)
+
+
+;; org mode
+(setq-default org-confirm-babel-evaluate nil)
+
+
+;; buffer in same window
+(global-set-key "\C-x\C-b" 'buffer-menu)
