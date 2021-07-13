@@ -1,0 +1,124 @@
+#+title Configuration file for Emacs
+#+author Jörg Martin
+* Appearance
+ 
+#+begin_src emacs-lisp
+  (require 'linum-relative)
+  (setq linum-relative-backend 'display-line-numbers-mode)
+  (linum-relative-global-mode)
+#+end_src
+
+* Evil mode
+#+begin_src emacs-lisp
+  (use-package evil
+    :ensure t
+    :init
+    (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
+    (setq evil-want-keybinding nil)
+    :config
+    (evil-mode 1))
+#+end_src
+
+#+begin_src emacs-lisp
+  (require 'evil)
+  (evil-mode 1)
+  (evil-commentary-mode)
+#+end_src
+
+#+begin_src emacs-lisp
+  (require 'key-chord)
+  (key-chord-mode 1)
+  (key-chord-define evil-insert-state-map  "jk" 'evil-normal-state)
+#+end_src
+
+#+begin_src emacs-lisp
+  (define-key evil-normal-state-map  (kbd "C-j")  'next-line)
+  (define-key evil-normal-state-map  (kbd "C-k")  'previous-line)
+#+end_src
+
+#+begin_src emacs-lisp
+  (evil-set-leader 'normal (kbd "SPC"))
+#+end_src
+
+#+begin_src emacs-lisp
+(define-key evil-normal-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-visual-state-map (kbd "C-u") 'evil-scroll-up)
+(define-key evil-insert-state-map (kbd "C-u")
+  (lambda ()
+    (interactive)
+    (evil-delete (point-at-bol) (point))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (add-hook 'after-init-hook 'global-company-mode)
+#+end_src
+
+* Opening of specific windows
+
+#+begin_src emacs-lisp
+  (defun get-my-init()
+    "opens init.el in vertical split"
+    (interactive)
+    (split-window-horizontally)
+   (find-file "~/.config/emacs/init.el")
+    )
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun get-my-org-config()
+    "opens config.org in vertical split"
+    (interactive)
+    (split-window-horizontally)
+   (find-file "~/.config/emacs/config.org")
+    )
+#+end_src
+
+#+begin_src emacs-lisp
+  (defun get-my-shell()
+    "opens init.el in vertical split"
+    (interactive)
+    (split-window-horizontally)
+   (vterm "/bin/bash")
+    )
+#+end_src
+** TODO Understand why this does not work
+#+begin_src emacs-lisp
+  ;; (defun toggle-ivy-mode()
+  ;;       "toggles ivy mode and counsel"
+  ;;     (interactive)
+  ;;   (counsel-mod))
+#+end_src
+
+#+begin_src emacs-lisp
+    (evil-define-key 'normal 'global (kbd "<leader>em")  'get-my-init)
+    (evil-define-key 'normal 'global (kbd "<leader>en")  'get-my-org-config)
+    (evil-define-key 'normal 'global (kbd "<leader>et")  'get-my-shell)
+    (global-set-key (kbd "C-x C-SPC")   'ivy-mode)
+#+end_src
+* Org mode
+
+#+begin_src emacs-lisp
+  (add-hook 'org-mode-hook  (lambda()
+	  (setq-default org-confirm-babel-evaluate nil)
+	    (org-bullets-mode t)
+	    (require 'org-tempo)))
+#+end_src
+* Ivy
+
+  
+#+begin_src emacs-lisp
+  ;; Buffer in same window
+  (global-set-key "\C-x\C-b" 'ivy-switch-buffer)
+#+end_src
+
+
+For counsel-mx
+  #+begin_src emacs-lisp
+(setq ivy-initial-inputs-alist nil)
+  #+end_src
+* Auctex
+
+#+begin_src emacs-lisp
+  ;; auctex options
+  (set-default 'preview-scale-function 1.2)
+#+end_src
