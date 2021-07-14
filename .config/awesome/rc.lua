@@ -79,6 +79,8 @@ firefox_launcher:connect_signal("button::press",
 	end
     end)
 
+margin_firefox_launcher = wibox.container.margin(firefox_launcher,3,nil,4,3)
+
 thunderbird_launcher = wibox.widget {
                     image = '/home/martin/.config/awesome/icons/thunderbird.png',
                     resize = true,
@@ -92,6 +94,8 @@ thunderbird_launcher:connect_signal("button::press",
 		awful.spawn('bash -c "thunderbird " &')
 	end
     end)
+
+margin_thunderbird_launcher = wibox.container.margin(thunderbird_launcher,3,nil,6,2)
 
 thunar_launcher = wibox.widget {
                     image = '/home/martin/.config/awesome/icons/folder.png',
@@ -107,7 +111,7 @@ thunar_launcher:connect_signal("button::press",
 	end
     end)
 
-margin_thunar_launcher = wibox.container.margin(thunar_launcher,3,nil,2,2)
+margin_thunar_launcher = wibox.container.margin(thunar_launcher,3,nil,6,6)
 
 spotify_launcher = wibox.widget {
                     image = '/home/martin/.config/awesome/icons/spotify.png',
@@ -123,7 +127,7 @@ spotify_launcher:connect_signal("button::press",
 	end
     end)
 
-margin_spotify_launcher = wibox.container.margin(spotify_launcher,nil,nil,3,3)
+margin_spotify_launcher = wibox.container.margin(spotify_launcher,nil,nil,6,6)
 --------
 
 --------
@@ -344,8 +348,8 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
 	    logout_menu_widget(),
-	    firefox_launcher,
-	    thunderbird_launcher,
+	    margin_firefox_launcher,
+	    margin_thunderbird_launcher,
 	    margin_thunar_launcher,
 	    margin_spotify_launcher,
             s.mylayoutbox,
