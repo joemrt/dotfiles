@@ -484,10 +484,10 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "p", function() menubar.show() end,
               {description = "show the menubar", group = "launcher"}),
     -- custom
-    awful.key({ modkey }, "d", function() awful.spawn("rofi_bspwm -show run") end, 
+    awful.key({ modkey  , "Shift"}, "d", function() awful.spawn("rofi -show run") end, 
     	      {description = "run rofi", group = "launcher"}),
-    awful.key({ modkey , "Shift"}, "d", 
-    	      function() awful.spawn.with_shell("rofi_bspwm -icon-theme \"Arc\" -show-icons -show drun") end, 
+    awful.key({ modkey}, "d", 
+    	      function() awful.spawn.with_shell("rofi -icon-theme \"Arc\" -show-icons -show drun") end, 
     	      {description = "run desktop rofi", group = "launcher"}),
     awful.key({ modkey , "Shift"}, "n", 
     	      function() awful.spawn.with_shell("networkmanager_dmenu") end, 
