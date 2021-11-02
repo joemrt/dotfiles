@@ -81,6 +81,22 @@ firefox_launcher:connect_signal("button::press",
 
 margin_firefox_launcher = wibox.container.margin(firefox_launcher,3,nil,4,3)
 
+brave_launcher = wibox.widget {
+                    image = '/home/martin/.config/awesome/icons/brave_icon.png',
+                    resize = true,
+                    widget = wibox.widget.imagebox,
+		    valigh = 'center',
+                }
+            
+brave_launcher:connect_signal("button::press", 
+    function(_, _, _, button)
+        if button == 1 then 
+		awful.spawn('bash -c "brave " &')
+	end
+    end)
+
+margin_brave_launcher = wibox.container.margin(brave_launcher,3,nil,4,3)
+
 thunderbird_launcher = wibox.widget {
                     image = '/home/martin/.config/awesome/icons/thunderbird.png',
                     resize = true,
@@ -98,7 +114,7 @@ thunderbird_launcher:connect_signal("button::press",
 margin_thunderbird_launcher = wibox.container.margin(thunderbird_launcher,3,nil,6,2)
 
 thunar_launcher = wibox.widget {
-                    image = '/home/martin/.config/awesome/icons/folder.png',
+                    image = '/home/martin/.config/awesome/icons/blue_folder.png',
                     resize = true,
                     widget = wibox.widget.imagebox,
 		    valigh = 'center',
@@ -111,7 +127,7 @@ thunar_launcher:connect_signal("button::press",
 	end
     end)
 
-margin_thunar_launcher = wibox.container.margin(thunar_launcher,3,nil,6,6)
+margin_thunar_launcher = wibox.container.margin(thunar_launcher,3,nil,8,8)
 
 spotify_launcher = wibox.widget {
                     image = '/home/martin/.config/awesome/icons/spotify.png',
@@ -348,9 +364,10 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
 	    logout_menu_widget(),
+	    margin_thunar_launcher,
+	    margin_brave_launcher,
 	    margin_firefox_launcher,
 	    margin_thunderbird_launcher,
-	    margin_thunar_launcher,
 	    margin_spotify_launcher,
             s.mylayoutbox,
             mylauncher,
