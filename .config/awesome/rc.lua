@@ -52,13 +52,13 @@ local volume_widget, volume_timer = awful.widget.watch('bash -c "sink=$(pactl li
 volume_textbox:connect_signal("button::press", 
     function(_, _, _, button)
         if button == 5 then 
-		awful.spawn('decrease_volume')
+		awful.spawn.with_shell('decrease_volume')
 		volume_timer:emit_signal('timeout')
 	elseif button == 4 then
-		awful.spawn('increase_volume')
+		awful.spawn.with_shell('increase_volume')
 		volume_timer:emit_signal('timeout')
 	elseif button == 1 then
-		awful.spawn('pactl set-sink-mute 0 toggle')
+		awful.spawn.with_shell('pactl set-sink-mute 0 toggle')
 	elseif button == 3 then
 		awful.spawn('pavucontrol &')
 	end
@@ -301,7 +301,7 @@ local tasklist_buttons = gears.table.join(
                                               awful.client.focus.byidx(-1)
                                           end))
 
-wallpaper_handle = io.popen('ls /usr/share/backgrounds/cynicalteam/*.{jpg,png}')
+wallpaper_handle = io.popen('ls /usr/share/backgrounds/cynicalteam/*.jpg')
 wallpaper_table = {}
 for wallpaper_item in wallpaper_handle:lines() do
 	table.insert(wallpaper_table, wallpaper_item)
@@ -510,11 +510,11 @@ globalkeys = gears.table.join(
     	      function() awful.spawn.with_shell("networkmanager_dmenu") end, 
     	      {description = "run desktop rofi", group = "launcher"}),
     awful.key({}, "XF86AudioRaiseVolume", 
-    	      function() awful.spawn('increase_volume'); volume_timer:emit_signal('timeout') end),
+    	      function() awful.spawn.with_shell('increase_volume'); volume_timer:emit_signal('timeout') end),
     awful.key({}, "XF86AudioLowerVolume", 
-    	      function() awful.spawn('decrease_volume'); volume_timer:emit_signal('timeout') end),
+    	      function() awful.spawn.with_shell('decrease_volume'); volume_timer:emit_signal('timeout') end),
     awful.key({}, "XF86AudioMute", 
-    	      function() awful.spawn('pactl set-sink-mute 0 toggle') end),
+    	      function() awful.spawn.with_shell('pactl set-sink-mute 0 toggle') end),
     awful.key({}, "XF86MonBrightnessUp", 
     	      function() brightness_widget:inc() end),
     awful.key({}, "XF86MonBrightnessDown", 

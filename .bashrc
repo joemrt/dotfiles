@@ -52,6 +52,7 @@ set -o vi
 bind '"jk":vi-movement-mode'
 
 alias vim=nvim
+alias vi=/usr/bin/vim
 export VISUAL=nvim
 export EDITOR=nvim
 export LESS='--mouse --wheel-lines=3 -R'
