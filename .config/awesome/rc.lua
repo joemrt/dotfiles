@@ -185,7 +185,7 @@ end
 
 
 -- execute custom script
-awful.spawn('/home/martin/.config/awesome/do-at-launch.sh')
+awful.spawn.with_shell('/home/martin/.config/awesome/do-at-launch.sh')
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty -e tmux"
