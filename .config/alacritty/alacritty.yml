@@ -1,3 +1,5 @@
+window:
+  opacity: 0.8
 colors:
         cursor:
           text: '#FF69B4'
@@ -23,6 +25,5 @@ colors:
           magenta: '#C397D8'
           cyan:    '#70C0B1'
           white:   '#EAEAEA'
-background_opacity: 0.8
 shell:
   program: /bin/bash
